@@ -405,7 +405,7 @@ app.post('/api/generate-email', async (req, res) => {
      }
      */
 
-    // Try Groq AI third
+    // Try Groq AI first (since API key is available)
     if (GROQ_API_KEY && GROQ_API_KEY !== 'gsk_YourGroqAPIKeyHere') {
       try {
         const response = await axios.post(GROQ_API_URL, {
