@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Send, Sparkles, Edit3, Mail, Copy } from 'lucide-react';
+import { Send, Sparkles, Edit3, Copy } from 'lucide-react';
+import { API_BASE_URL } from './config';
 import './App.css';
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
     setMessage('');
 
     try {
-      const response = await axios.post('/api/generate-email', { prompt });
+      const response = await axios.post(`${API_BASE_URL}/api/generate-email`, { prompt });
       
       if (response.data.success) {
         const email = response.data.email;
@@ -75,7 +76,7 @@ function App() {
     setMessage('');
 
     try {
-      const response = await axios.post('/api/send-email', {
+      const response = await axios.post(`${API_BASE_URL}/api/send-email`, {
         recipients: recipients.split(',').map(email => email.trim()),
         subject: editedSubject,
         body: editedBody

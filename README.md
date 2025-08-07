@@ -4,7 +4,7 @@ A full-stack application that generates professional emails using AI and sends t
 
 ## Features
 
-- 🤖 **AI-Powered Email Generation**: Uses Groq AI to generate professional emails based on prompts
+- 🤖 **AI-Powered Email Generation**: Uses Groq AI and Gemini AI to generate professional emails based on prompts
 - 📧 **Email Sending**: Send emails to multiple recipients using Gmail SMTP
 - ✏️ **Editable Content**: Review and edit generated emails before sending
 - 🎨 **Modern UI**: Beautiful, responsive design with smooth animations
@@ -15,7 +15,7 @@ A full-stack application that generates professional emails using AI and sends t
 
 - **Frontend**: React.js, Axios, Lucide React Icons
 - **Backend**: Node.js, Express.js, Nodemailer
-- **AI**: Groq API (Llama 3.1 8B model)
+- **AI**: Groq API (Llama 3.1 8B model) and Gemini AI
 - **Email**: Gmail SMTP
 - **Styling**: CSS3 with modern gradients and animations
 
@@ -212,6 +212,52 @@ ai-email-sender/
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
+
+## Deployment
+
+### Option 1: Vercel (Frontend) + Render (Backend) - Recommended
+
+#### Backend Deployment (Render)
+1. Go to [Render.com](https://render.com) and sign up
+2. Click "New +" and select "Web Service"
+3. Connect your GitHub repository
+4. Configure the service:
+   - **Name**: `ai-email-sender-backend`
+   - **Environment**: `Node`
+   - **Build Command**: `cd server && npm install`
+   - **Start Command**: `cd server && npm start`
+   - **Plan**: Free
+5. Add environment variables:
+   - `NODE_ENV`: `production`
+   - `PORT`: `10000`
+   - Add your API keys and email credentials
+6. Deploy and copy the URL (e.g., `https://your-app.onrender.com`)
+
+#### Frontend Deployment (Vercel)
+1. Go to [Vercel.com](https://vercel.com) and sign up
+2. Click "New Project" and import your GitHub repository
+3. Configure the project:
+   - **Framework Preset**: `Create React App`
+   - **Root Directory**: `client`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `build`
+4. Add environment variable:
+   - `REACT_APP_API_URL`: Your Render backend URL
+5. Deploy
+
+### Option 2: Railway (Full-Stack)
+1. Go to [Railway.app](https://railway.app) and sign up
+2. Create a new project from GitHub
+3. Add environment variables
+4. Deploy both frontend and backend
+
+### Option 3: Heroku (Full-Stack)
+1. Create a Heroku account
+2. Install Heroku CLI
+3. Create a new app
+4. Add buildpacks for Node.js
+5. Configure environment variables
+6. Deploy using Git
 
 ## License
 
