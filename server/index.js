@@ -316,7 +316,15 @@ app.post('/api/generate-email', async (req, res) => {
 
     const aiPrompt = `Generate a professional email based on the following prompt: "${prompt}". 
     The email should be well-structured, professional, and appropriate for the given context. 
-    Include a proper subject line and body. Format the response as JSON with "subject" and "body" fields.`;
+    Include a proper subject line and body. 
+    
+    Please provide the response in this exact format:
+    
+    Subject: [Your subject here]
+    
+    [Your email body here]
+    
+    Do not use JSON format. Use plain text with "Subject:" followed by the subject line, then a blank line, then the email body.`;
 
          // Try Gemini AI first (COMMENTED OUT - API issues)
      /*
@@ -427,15 +435,37 @@ app.post('/api/generate-email', async (req, res) => {
 
         const aiResponse = response.data.choices[0].message.content;
         
-        // Try to parse JSON response, fallback to plain text
+        // Parse the plain text response
         let emailData;
-        try {
-          emailData = JSON.parse(aiResponse);
-        } catch (error) {
-          // If not JSON, create a structured response
+        const lines = aiResponse.split('\n');
+        let subject = '';
+        let body = '';
+        let foundSubject = false;
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line.startsWith('Subject:')) {
+            subject = line.replace('Subject:', '').trim();
+            foundSubject = true;
+          } else if (foundSubject && line === '') {
+            // Skip the blank line after subject
+            continue;
+          } else if (foundSubject) {
+            // Everything after subject and blank line is body
+            body += line + '\n';
+          }
+        }
+        
+        // If we couldn't parse properly, use fallback
+        if (!subject || !body.trim()) {
           emailData = {
             subject: 'AI Generated Email',
             body: aiResponse
+          };
+        } else {
+          emailData = {
+            subject: subject,
+            body: body.trim()
           };
         }
 
